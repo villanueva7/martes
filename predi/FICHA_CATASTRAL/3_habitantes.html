@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  
+  <title>Tabla con funcionalidades</title>
+  <style>
+      body {
+      margin: 0;
+      padding: 0;
+      background-image: url('logo.jpg');            /* Cambia 'ruta/a/imagen.jpg' por la ruta de tu imagen */
+      background-size: 1200px 800px;
+      background-position: center;
+      background-repeat: no-repeat;
+      font-family: Arial, sans-serif;
+	  
+    }
+
+    header {
+      background-color: #333; /* Color de fondo gris */
+      padding: 10px; /* Espacio alrededor del texto */
+    }
+    .centrado {
+      text-align: center;
+      margin: 0;
+      padding: 0;
+	  color: #fff;
+	  font-size: 40px;
+	  
+    }
+	
+
+	
+	#miTabla tbody td {
+      background-color: #ffffff; /* Color de fondo con opacidad (rojo semi-transparente) */
+      color: black; /* Color del texto dentro de las celdas */
+      text-align: center; /* Alineación del texto en las celdas */
+      padding: 10px; /* Espaciado interno de las celdas */
+	  
+    }
+
+    /* Estilos adicionales para la tabla, por ejemplo, espaciado entre celdas */
+    #miTabla {
+      border-collapse: collapse;
+      width: 98%;
+	  margin-right: 20px; /* Margen de 20px en el lado derecho */
+      margin-left: 20px; /* Margen de 20px en el lado izquierdo */
+	  
+      border: 5px solid #696969; /* Borde de la tabla */
+    }
+
+    #miTabla th, #miTabla td {
+      border: 3px solid #ccc; /* Borde de las celdas */
+    }
+	
+  
+  
+  
+    /* Estilos para la tabla */
+	
+	
+    table {
+      border-collapse: collapse;
+      width: 50%;
+	  
+	 
+    }
+    th, td {
+	  
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: center;
+	  color: white;
+    }
+    th {
+      background-color:#696969;
+    }
+    #filtroInput {
+      margin-bottom: 30px;
+	  margin-left: 20px; /* Margen de 20px en el lado izquierdo */
+	  margin-top: 20px; /* Agrega un margen superior al botón */
+	  
+    }
+	
+	
+  </style>
+</head>
+<body>
+  <body>
+  <header>
+    <div class="centrado">
+      <p>HABITANTES - LOTE 150717-01-001-002</p>
+    </div>
+  </header>
+</body>
+
+  <div class="contenido">
+
+    <input type="text" id="filtroInput" placeholder="Filtrar por DNI">
+    <button id="agregarFilaBtn">Agregar Fila</button>
+	<button id="descargarCSVBtn" role="link" aria-label="Descargar datos como CSV">Descargar CSV</button>
+	
+  </div>
+
+
+   
+
+<table id="miTabla">
+  <thead>
+    <tr>
+      <th>fid</th>
+      <th>Nombre</th>
+      <th>Apellido Paterno</th>
+      <th>Apellido Materno</th>
+      <th>DNI</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <!-- Las filas se agregarán dinámicamente mediante JavaScript -->
+  </tbody>
+</table>
+
+<script>
+  let datos = JSON.parse(localStorage.getItem('datos')) || [
+    { fid: 1, nombre: 'Juan', apellidoPaterno: 'Pérez', apellidoMaterno: 'Gómez', dni: '12345678' },
+    { fid: 2, nombre: 'María', apellidoPaterno: 'González', apellidoMaterno: 'López', dni: '87654321' },
+    // Agregar más datos si es necesario
+  ];
+
+  const tablaBody = document.querySelector('#miTabla tbody');
+  const filtroInput = document.querySelector('#filtroInput');
+  const agregarFilaBtn = document.querySelector('#agregarFilaBtn');
+
+  function renderizarTabla(datos) {
+    tablaBody.innerHTML = '';
+
+    datos.forEach((fila, index) => {
+      const nuevaFila = document.createElement('tr');
+
+      nuevaFila.innerHTML = `
+        <td>${fila.fid}</td>
+        <td>${fila.nombre}</td>
+        <td>${fila.apellidoPaterno}</td>
+        <td>${fila.apellidoMaterno}</td>
+        <td>${fila.dni}</td>
+        <td>
+          <button class="editarBtn" data-id="${fila.fid}">Editar</button>
+          <button class="eliminarBtn" data-id="${fila.fid}">Eliminar</button>
+        </td>
+      `;
+
+      tablaBody.appendChild(nuevaFila);
+    });
+
+    const editarBtns = document.querySelectorAll('.editarBtn');
+    const eliminarBtns = document.querySelectorAll('.eliminarBtn');
+
+    editarBtns.forEach(btn => {
+      btn.addEventListener('click', (event) => {
+        const filaId = event.target.getAttribute('data-id');
+        editarFila(filaId);
+      });
+    });
+
+    eliminarBtns.forEach(btn => {
+      btn.addEventListener('click', (event) => {
+        const filaId = event.target.getAttribute('data-id');
+        eliminarFila(filaId);
+      });
+    });
+  }
+  
+
+  function editarFila(id) {
+    const filaEditar = datos.find(fila => fila.fid == id);
+
+    if (filaEditar) {
+      const nuevoNombre = prompt('Ingrese el nuevo nombre:', filaEditar.nombre);
+      const nuevoApellidoPaterno = prompt('Ingrese el nuevo apellido paterno:', filaEditar.apellidoPaterno);
+      const nuevoApellidoMaterno = prompt('Ingrese el nuevo apellido materno:', filaEditar.apellidoMaterno);
+      const nuevoDNI = prompt('Ingrese el nuevo DNI:', filaEditar.dni);
+
+      filaEditar.nombre = nuevoNombre || filaEditar.nombre;
+      filaEditar.apellidoPaterno = nuevoApellidoPaterno || filaEditar.apellidoPaterno;
+      filaEditar.apellidoMaterno = nuevoApellidoMaterno || filaEditar.apellidoMaterno;
+      filaEditar.dni = nuevoDNI || filaEditar.dni;
+
+      guardarDatosEnLocalStorage();
+      renderizarTabla(datos);
+      console.log('Fila editada con ID:', id);
+    } else {
+      console.log('No se encontró la fila para editar');
+    }
+  }
+
+  function eliminarFila(id) {
+    const indice = parseInt(id) - 1;
+    
+    if (!isNaN(indice) && datos[indice]) {
+      datos.splice(indice, 1);
+      ajustarFids(); // Ajusta los IDs después de eliminar una fila
+      guardarDatosEnLocalStorage();
+      renderizarTabla(datos);
+      console.log('Fila eliminada con ID:', id);
+    } else {
+      console.log('No se encontró la fila para eliminar');
+    }
+  }
+
+  function ajustarFids() {
+    datos.forEach((fila, index) => {
+      fila.fid = index + 1;
+    });
+  }
+  
+
+  function guardarDatosEnLocalStorage() {
+    localStorage.setItem('datos', JSON.stringify(datos));
+  }
+
+  renderizarTabla(datos);
+  
+
+  // Función para filtrar por DNI
+  filtroInput.addEventListener('input', () => {
+    const filtro = filtroInput.value.trim().toLowerCase();
+
+    const datosFiltrados = datos.filter((fila) => {
+      return fila.dni.toLowerCase().includes(filtro);
+    });
+
+    renderizarTabla(datosFiltrados);
+  });
+
+  // Función para agregar una nueva fila
+  agregarFilaBtn.addEventListener('click', () => {
+    const nuevaFila = {
+      fid: datos.length + 1,
+      nombre: 'Nuevo',
+      apellidoMaterno: 'Apellido',
+      apellidoPaterno: 'Nuevo',
+      dni: '00000000',
+      accion: 'Editar'
+    };
+
+    datos.push(nuevaFila); // Agregamos la nueva fila a los datos
+    renderizarTabla(datos); // Actualizamos la tabla con la nueva fila
+  });
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+			function descargarCSV() {
+			  const filasTabla = document.querySelectorAll('#miTabla tbody tr');
+			  const csv = [];
+
+			  // Encabezados del CSV
+			  const encabezados = ['fid', 'Nombre', 'Apellido Paterno', 'Apellido Materno', 'DNI'];
+			  csv.push(encabezados.join(','));
+
+			  filasTabla.forEach(fila => {
+				const datosFila = Array.from(fila.querySelectorAll('td'))
+				  .map(elemento => elemento.textContent.trim());
+
+				// Seleccionar las columnas específicas: fid, Nombre, Apellido Paterno, Apellido Materno, DNI
+				const datosColumnasEspecificas = [datosFila[0], datosFila[1], datosFila[2], datosFila[3], datosFila[4]];
+				
+				csv.push(datosColumnasEspecificas.join(','));
+			  });
+
+			  // Crear el contenido del archivo CSV
+			  const contenidoCSV = csv.join('\n');
+
+			  // Crear un enlace para descargar el archivo CSV
+			  const enlaceDescarga = document.createElement('a');
+			  enlaceDescarga.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(contenidoCSV);
+			  enlaceDescarga.target = '_blank';
+			  enlaceDescarga.download = 'HABITANTES - LOTE 150717-01-001-002.csv';
+			  document.body.appendChild(enlaceDescarga);
+			  enlaceDescarga.click();
+			  document.body.removeChild(enlaceDescarga);
+			}
+document.getElementById('descargarCSVBtn').addEventListener('click', descargarCSV);
+</script>
+
+</body>
+</html>
