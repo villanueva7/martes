@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+    <head>
+		
+		<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+		integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+		crossorigin=""/>	
+
+	    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
+		<script src="JS/lib/leaflet-providers.js"></script>
+		<link rel="stylesheet" href="CSS/lib/leaflet.groupedlayercontrol.min.css">
+        <script src="JS/lib/leaflet.groupedlayercontrol.min.js" type="text/javascript"></script>
+        <link rel="stylesheet" href="CSS/micss/style.css">
+		
+		<link rel="stylesheet" type="text/css" href="Leaflet-MiniMap-master/dist/Control.MiniMap.min.css">
+		<link rel="stylesheet" type="text/css" href="Leaflet.Legend-master/src/leaflet.legend.css">
+		
+		
+		
+		
+		 <title>CATASTRO - SAN BARTOLOME</title>
+		
+		<h1>CATASTRO - DISTRITO DE SAN BARTOLOME</h1>
+		
+		
+		<select name="select-location" id="select-location">
+		
+			<option value="-1">Seleccione un lugar:</option>
+			<option value="-12.084989, -77.006304">Sencico</option>
+			<option value="-11.910859, -76.529566">Distrito de san Bartolome</option>
+			
+		</select>
+
+    </head>
+	
+	
+<body>
+
+	<button onclick="toggleImageOverlay()">Mostrar/Esconder Capa Raster</button>
+    <div id="map"></div>
+
+	
+
+	<script src="Leaflet-MiniMap-master/dist/Control.MiniMap.min.js"></script>
+	<script src="Leaflet.Legend-master/src/leaflet.legend.js"></script> 
+	<script src="layers/barrios.js"></script>
+	<script src="layers/lote.js"></script>
+	
+    <script src="JS/mijs/main.js"></script>
+	
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+   		integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+   		crossorigin=""></script> 
+		
+
+
+
+
+		
+</body>
+</html>
+
+
+
