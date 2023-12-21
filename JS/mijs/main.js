@@ -129,6 +129,18 @@ var loteJS = L.geoJson(lote,{
 }).addTo(map);
 
 
+var lote3JS = L.geoJson(lote3,{
+	color: '#F35E08   ',
+    fillColor: '#F35E08   ',
+    
+}).addTo(map);
+
+var mzJS = L.geoJson(mz,{
+	color: '#08DAF3   ',
+    fillColor: '#08DAF3   ',
+    
+}).addTo(map);
+
 
 
 // Agregar la leyenda
@@ -157,7 +169,23 @@ const LEYENDA = L.control.Legend({
             color: "red",
             fillColor: "#FF0000",
             weight: 2,
-            layers: loteJS,lote	
+            layers: loteJS,lote
+	    }, {
+
+            label: "lote2",
+            type: "rectangle",
+            color: "#F35E08 ",
+            fillColor: "#F35E08 ",
+            weight: 2,
+            layers: lote3JS,lote3
+	    }, {
+
+            label: "Manzanas",
+            type: "rectangle",
+            color: "#08DAF3 ",
+            fillColor: "#08DAF3 ",
+            weight: 2,
+            layers: mzJS,mz
         }]
 		
 }).addTo(map);
